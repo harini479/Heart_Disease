@@ -9,11 +9,6 @@ import mysql.connector as my
 def open():
        webbrowser.open('http://127.0.0.1:5000')
 
-def connector():
-    conn = my.connect(host="localhost",user="root",password="",database="heart")
-    cursor = conn.cursor()
-    return conn,cursor
-
 app1 = Flask(__name__)
 
 @app1.route('/')
@@ -80,19 +75,6 @@ def sample2():
 
               # Make prediction
               result = model.predict([val])
-
-              # Connect to database
-              conn, cursor = connector()
-              query = """INSERT INTO heart_params (age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, result) 
-                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-              values = (int(age), int(sex), int(cp), int(trestbps), int(chol), int(fbs), int(restecg), 
-                        int(thalach), int(exang), float(oldpeak), int(slope), int(ca), int(thal), int(result[0]))
-
-              cursor.execute(query, values)
-              conn.commit()  # Commit the transaction
-              cursor.close()
-              conn.close()
-
               # Output results
               if result[0] == 0:
                      resultss = 'No heart disease'
@@ -102,7 +84,7 @@ def sample2():
               return render_template("/resultss.html", results=resultss)
 
        else:
-              return render_template('heart1.html')
+              return render_template('index.html')
 
 
 if __name__ == '__main__':
