@@ -18,7 +18,7 @@ app1 = Flask(__name__)
 
 @app1.route('/')
 def registers():
-    return render_template('heart1.html')
+    return render_template('index.html')
 
 @app1.route('/sample2', methods=['GET', 'POST'])
 def sample2():
